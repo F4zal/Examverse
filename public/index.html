@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="theme-color" content="#050505">
+<meta name="description" content="ExamVerse OS — India's Most Advanced Exam Preparation Platform">
+<title>ExamVerse OS</title>
+<link rel="manifest" href="/manifest.json">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+:root{
+  --bg:#050505;--surface:#0a0a0a;--card:#111111;--card2:#161616;
+  --border:rgba(255,255,255,0.055);--border2:rgba(255,255,255,0.1);
+  --text:#f4f4f5;--text2:#a1a1aa;--text3:#52525b;--text4:#3f3f46;
+  --blue:#3b82f6;--purple:#8b5cf6;--cyan:#06b6d4;--green:#10b981;
+  --orange:#f59e0b;--red:#ef4444;--pink:#ec4899;
+  --r:10px;--r2:14px;--r3:18px;--r4:24px;
+  --font:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+  --ease:cubic-bezier(0.4,0,0.2,1);
+}
+html,body{width:100%;min-height:100%;background:var(--bg);color:var(--text);font-family:var(--font);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:2px;height:2px}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.08);border-radius:2px}
+
+/* AMBIENT */
+#amb{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.aorb{position:absolute;border-radius:50%;filter:blur(100px);animation:af 15s ease-in-out infinite}
+.aorb1{width:600px;height:600px;background:radial-gradient(circle,rgba(59,130,246,0.16),transparent 70%);top:-200px;left:-200px}
+.aorb2{width:500px;height:500px;background:radial-gradient(circle,rgba(139,92,246,0.14),transparent 70%);bottom:-150px;right:-150px;animation-delay:-5s}
+.aorb3{width:350px;height:350px;background:radial-gradient(circle,rgba(6,182,212,0.09),transparent 70%);top:40%;left:30%;animation-delay:-10s}
+@keyframes af{0%,100%{transform:translate(0,0)}33%{transform:translate(20px,-15px)}66%{transform:translate(-15px,20px)}}
+
+/* AUTH SCREENS */
+#auth-wrap{position:fixed;inset:0;z-index:900;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
+#auth-wrap.hidden{display:none}
+.auth-box{width:100%;max-width:400px;background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:var(--r4);padding:32px 24px;position:relative;overflow:hidden;animation:sIn 0.3s var(--ease)}
+.auth-box::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.08),transparent)}
+.auth-logo{text-align:center;margin-bottom:24px}
+.auth-title{font-size:28px;font-weight:900;letter-spacing:-1px;text-align:center;margin-bottom:4px}
+.auth-sub{font-size:11px;color:var(--text3);letter-spacing:2px;text-transform:uppercase;text-align:center;margin-bottom:24px}
+.auth-tabs{display:flex;background:rgba(255,255,255,0.04);border-radius:var(--r2);padding:3px;margin-bottom:22px}
+.auth-tab{flex:1;text-align:center;padding:8px;border-radius:10px;font-size:12px;font-weight:700;color:var(--text3);cursor:pointer;transition:all 0.2s;user-select:none}
+.auth-tab.active{background:var(--blue);color:#fff}
+.inp-group{margin-bottom:13px}
+.inp-label{font-size:10px;font-weight:700;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;display:block}
+.inp{width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:var(--r2);padding:12px 14px;color:var(--text);font-size:14px;outline:none;font-family:var(--font);transition:border-color 0.2s;-webkit-appearance:none}
+.inp:focus{border-color:rgba(59,130,246,0.4)}
+.inp::placeholder{color:var(--text4)}
+.inp-err{font-size:10px;color:var(--red);margin-top:4px;display:none}
+.inp-err.show{display:block}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;border:none;cursor:pointer;font-weight:700;font-size:13px;border-radius:var(--r2);padding:12px 18px;width:100%;margin-bottom:9px;transition:all 0.14s var(--ease);-webkit-appearance:none;font-family:var(--font);user-select:none;text-decoration:none}
+.btn:active{transform:scale(0.96);opacity:0.88}
+.btn-primary{background:linear-gradient(135deg,#3b82f6,#6366f1);color:#fff;box-shadow:0 4px 20px rgba(59,130,246,0.22)}
+.btn-primary:disabled{opacity:0.5;cursor:not-allowed;transform:none}
+.btn-google{background:rgba(255,255,255,0.06);border:1px solid var(--border2);color:var(--text)}
+.btn-ghost{background:rgba(255,255,255,0.04);border:1px solid var(--border2);color:var(--text)}
+.btn-danger{background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);color:#f87171}
+.btn-sm{padding:7px 13px;font-size:11px;width:auto;margin-bottom:0;border-radius:var(--r)}
+.divider-text{display:flex;align-items:center;gap:12px;margin:12px 0;font-size:10px;color:var(--text3)}
+.divider-text::before,.divider-text::after{content:'';flex:1;height:1px;background:var(--border)}
+.auth-link{text-align:center;font-size:11px;color:var(--text3);margin-top:12px}
+.auth-link a{color:var(--blue);text-decoration:none;font-weight:600}
+
+/* OTP SCREEN */
+.otp-inputs{display:flex;gap:10px;justify-content:center;margin:20px 0}
+.otp-inp{width:48px;height:56px;text-align:center;font-size:22px;font-weight:800;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:var(--r2);color:var(--text);outline:none;transition:border-color 0.2s;-webkit-appearance:none;font-family:var(--font)}
+.otp-inp:focus{border-color:var(--blue)}
+
+/* TOPBAR */
+#topbar{position:fixed;top:0;left:0;right:0;z-index:300;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;background:rgba(5,5,5,0.9);border-bottom:1px solid var(--border);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px)}
+.logo{display:flex;align-items:center;gap:8px}
+.logo-mark{width:26px;height:26px;background:linear-gradient(135deg,var(--blue),var(--purple));border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.logo-name{font-size:14px;font-weight:900;letter-spacing:-0.5px;background:linear-gradient(135deg,#3b82f6,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.topbar-right{display:flex;align-items:center;gap:5px}
+.tpill{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;white-space:nowrap;cursor:pointer}
+.tpill-xp{background:rgba(139,92,246,0.12);border:1px solid rgba(139,92,246,0.22);color:#a78bfa}
+.tpill-str{background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.22);color:#fbbf24}
+.tpill-clk{background:rgba(255,255,255,0.04);border:1px solid var(--border);color:var(--text3);font-size:9px}
+
+/* BOTTOM NAV */
+#nav{position:fixed;bottom:0;left:0;right:0;z-index:300;background:rgba(5,5,5,0.94);border-top:1px solid var(--border);display:flex;justify-content:space-around;align-items:center;padding:6px 4px calc(6px + env(safe-area-inset-bottom));backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px)}
+.ni{display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:5px 10px;border-radius:10px;transition:all 0.18s;border:none;background:transparent;-webkit-appearance:none;position:relative;user-select:none;min-width:52px}
+.ni.active{background:rgba(59,130,246,0.1)}
+.ni-ic{font-size:18px;transition:transform 0.18s}
+.ni.active .ni-ic{transform:scale(1.12)}
+.ni-lb{font-size:8px;font-weight:700;color:var(--text4);letter-spacing:0.5px;text-transform:uppercase;transition:color 0.18s}
+.ni.active .ni-lb{color:var(--blue)}
+.ni-dot{position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);width:18px;height:2px;border-radius:2px;background:var(--blue);opacity:0;transition:opacity 0.18s}
+.ni.active .ni-dot{opacity:1}
+
+/* SCREENS */
+.screen{display:none;padding:60px 14px calc(80px + env(safe-area-inset-bottom));min-height:100vh;position:relative;z-index:1}
+.screen.active{display:block;animation:sIn 0.25s var(--ease)}
+@keyframes sIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* CARDS */
+.glass{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:var(--r3);padding:16px;margin-bottom:12px;position:relative;overflow:hidden}
+.glass::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.07),transparent)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);padding:14px;margin-bottom:9px;transition:border-color 0.2s;position:relative;overflow:hidden}
+.card:hover{border-color:var(--border2)}
+
+/* TYPOGRAPHY */
+.h1{font-size:clamp(20px,5.5vw,30px);font-weight:800;letter-spacing:-0.5px;line-height:1.1;margin-bottom:4px}
+.h2{font-size:15px;font-weight:700}
+.lbl{font-size:9px;font-weight:700;color:var(--text3);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:9px;margin-top:4px}
+.muted{color:var(--text2)}
+.sm{font-size:11px;color:var(--text2)}
+.g-blue{background:linear-gradient(135deg,#60a5fa,#3b82f6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.g-purple{background:linear-gradient(135deg,#c4b5fd,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.g-main{background:linear-gradient(135deg,#60a5fa,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+/* BADGES */
+.badge{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:20px;font-size:8px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase}
+.b-blue{background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);color:#60a5fa}
+.b-green{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.2);color:#34d399}
+.b-orange{background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.2);color:#fbbf24}
+.b-red{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);color:#f87171}
+.b-purple{background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.2);color:#a78bfa}
+
+/* GRIDS */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+
+/* PBAR */
+.pbar{height:4px;background:rgba(255,255,255,0.05);border-radius:4px;overflow:hidden}
+.pbar-f{height:100%;border-radius:4px;transition:width 0.5s var(--ease)}
+.pb-blue{background:linear-gradient(90deg,var(--blue),var(--purple))}
+.pb-green{background:linear-gradient(90deg,var(--cyan),var(--green))}
+
+/* STAT CHIPS */
+.sw-row{display:flex;gap:7px;overflow-x:auto;padding-bottom:5px;margin-bottom:12px;scrollbar-width:none}
+.sw-row::-webkit-scrollbar{display:none}
+.sw{flex-shrink:0;background:var(--card);border:1px solid var(--border);border-radius:var(--r2);padding:11px 13px;min-width:82px}
+.sw-v{font-size:clamp(16px,4vw,22px);font-weight:800;letter-spacing:-0.5px;line-height:1}
+.sw-l{font-size:7px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-top:4px}
+
+/* EXAM GRID */
+.exam-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px}
+.exam-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r3);padding:16px 12px;text-align:center;cursor:pointer;transition:all 0.18s;user-select:none;position:relative;overflow:hidden}
+.exam-card:active{transform:scale(0.95)}
+.exam-card.sel{border-color:var(--blue);background:rgba(59,130,246,0.06)}
+.ec-icon{font-size:28px;margin-bottom:7px;display:block}
+.ec-name{font-size:11px;font-weight:800;margin-bottom:2px}
+.ec-count{position:absolute;top:7px;right:7px}
+
+/* QUIZ WRAP */
+#quiz-wrap{display:none;position:fixed;inset:0;z-index:500;background:var(--bg);flex-direction:column}
+#quiz-wrap.open{display:flex}
+.qhdr{background:rgba(5,5,5,0.97);border-bottom:1px solid var(--border);padding:9px 12px;display:flex;align-items:center;justify-content:space-between;gap:9px;flex-shrink:0;backdrop-filter:blur(20px)}
+.qhdr-info{flex:1;min-width:0}
+.q-ttl{font-size:10px;font-weight:700;color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.q-stl{font-size:8px;color:var(--text3);margin-top:1px}
+.qtmr{font-size:14px;font-weight:800;color:var(--blue);background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.16);border-radius:var(--r);padding:5px 11px;min-width:68px;text-align:center;font-variant-numeric:tabular-nums}
+.qtmr.urgent{color:var(--red);border-color:rgba(239,68,68,0.3);background:rgba(239,68,68,0.06);animation:uf 0.6s infinite}
+@keyframes uf{0%,100%{opacity:1}50%{opacity:0.4}}
+.qpbar{height:2px;background:rgba(255,255,255,0.04);flex-shrink:0}
+.qpbar-f{height:100%;background:linear-gradient(90deg,var(--blue),var(--purple));transition:width 0.3s}
+.qbody{flex:1;overflow-y:auto;padding:14px 13px 120px;-webkit-overflow-scrolling:touch}
+.q-num{font-size:9px;font-weight:700;color:var(--text3);margin-bottom:9px}
+.q-txt{font-size:15px;line-height:1.8;margin-bottom:16px;font-weight:500}
+.opt{background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:var(--r2);padding:13px 14px;margin-bottom:8px;cursor:pointer;font-size:13px;color:var(--text2);display:flex;align-items:center;gap:11px;transition:all 0.13s;-webkit-appearance:none;width:100%;text-align:left;font-family:var(--font);user-select:none}
+.opt:active{transform:scale(0.98)}
+.opt.sel{background:rgba(59,130,246,0.06);border-color:rgba(59,130,246,0.28);color:var(--text)}
+.opt.correct{background:rgba(16,185,129,0.07);border-color:rgba(16,185,129,0.28);color:#34d399}
+.opt.wrong{background:rgba(239,68,68,0.06);border-color:rgba(239,68,68,0.22);color:#f87171}
+.olbl{width:27px;height:27px;border-radius:50%;background:rgba(255,255,255,0.04);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:var(--text3);flex-shrink:0;transition:all 0.13s}
+.opt.sel .olbl{background:var(--blue);color:#fff;border-color:var(--blue)}
+.opt.correct .olbl{background:var(--green);color:#fff;border-color:var(--green)}
+.opt.wrong .olbl{background:var(--red);color:#fff;border-color:var(--red)}
+.exp-box{background:rgba(59,130,246,0.04);border:1px solid rgba(59,130,246,0.12);border-radius:var(--r);padding:11px;font-size:11px;color:var(--text2);margin-top:10px;line-height:1.6;display:none}
+.exp-box.show{display:block}
+.qftr{position:absolute;bottom:0;left:0;right:0;background:rgba(5,5,5,0.97);border-top:1px solid var(--border);padding:8px 12px;display:flex;gap:5px;flex-wrap:wrap;backdrop-filter:blur(20px);padding-bottom:calc(8px + env(safe-area-inset-bottom))}
+
+/* PALETTE */
+#pal-ov{display:none;position:fixed;inset:0;z-index:600;background:rgba(5,5,5,0.98);padding:18px 14px;overflow-y:auto;flex-direction:column;gap:12px}
+#pal-ov.open{display:flex}
+.pal-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:5px}
+.pb{width:43px;height:43px;border-radius:var(--r);border:1px solid var(--border);cursor:pointer;font-size:11px;font-weight:700;background:rgba(255,255,255,0.03);color:var(--text3);-webkit-appearance:none;user-select:none;transition:all 0.13s}
+.pb:active{transform:scale(0.86)}
+.pb.cur{background:var(--blue);color:#fff;border-color:var(--blue)}
+.pb.ans{background:rgba(16,185,129,0.4);color:#fff;border-color:transparent}
+.pb.flag{background:rgba(245,158,11,0.4);color:#fff;border-color:transparent}
+.pb.bkm{background:rgba(139,92,246,0.4);color:#fff;border-color:transparent}
+
+/* SUBMIT CONFIRM */
+#sub-cf{display:none;position:fixed;inset:0;z-index:700;background:rgba(5,5,5,0.96);align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(20px)}
+#sub-cf.open{display:flex}
+.cf-box{background:var(--card);border:1px solid rgba(239,68,68,0.18);border-radius:var(--r4);padding:26px 20px;text-align:center;max-width:320px;width:100%}
+
+/* RESULTS */
+.rank-banner{background:linear-gradient(135deg,rgba(59,130,246,0.06),rgba(139,92,246,0.05));border:1px solid var(--border2);border-radius:var(--r4);padding:26px;text-align:center;margin-bottom:14px}
+.an-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px}
+@media(min-width:460px){.an-grid{grid-template-columns:repeat(4,1fr)}}
+.ac{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);padding:12px;text-align:center}
+.av{font-size:18px;font-weight:800;margin-bottom:3px}
+.al{font-size:7px;color:var(--text3);letter-spacing:1px;text-transform:uppercase}
+
+/* REVIEW */
+.rev-item{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);padding:13px;margin-bottom:9px}
+.rev-opt{padding:6px 10px;border-radius:var(--r);font-size:11px;margin-bottom:4px;border:1px solid transparent}
+.rev-ok{background:rgba(16,185,129,0.07);border-color:rgba(16,185,129,0.2);color:#34d399}
+.rev-ng{background:rgba(239,68,68,0.06);border-color:rgba(239,68,68,0.18);color:#f87171}
+
+/* AI CHAT */
+.ai-wrap{background:rgba(0,0,0,0.45);border:1px solid var(--border);border-radius:var(--r2);padding:12px;min-height:180px;max-height:280px;overflow-y:auto;margin-bottom:9px;display:flex;flex-direction:column;gap:9px}
+.ai-msg{padding:9px 12px;border-radius:10px;font-size:12px;line-height:1.65;max-width:90%}
+.ai-bot{background:rgba(59,130,246,0.06);border:1px solid rgba(59,130,246,0.1);align-self:flex-start;border-radius:4px 10px 10px 10px;color:var(--text)}
+.ai-user{background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.15);align-self:flex-end;border-radius:10px 4px 10px 10px;color:var(--text)}
+.ai-typing{display:inline-flex;gap:3px;align-items:center;padding:9px 12px}
+.tdot{width:5px;height:5px;border-radius:50%;background:var(--blue);animation:td 1.4s infinite}
+.tdot:nth-child(2){animation-delay:0.2s}
+.tdot:nth-child(3){animation-delay:0.4s}
+@keyframes td{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-7px)}}
+.ai-inp-row{display:flex;gap:7px;margin-bottom:12px}
+.ai-inp{flex:1;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:var(--r2);padding:11px 13px;color:var(--text);font-size:13px;outline:none;font-family:var(--font);transition:border-color 0.2s}
+.ai-inp:focus{border-color:rgba(59,130,246,0.3)}
+.ai-sbtn{background:linear-gradient(135deg,var(--blue),var(--purple));border:none;border-radius:var(--r2);padding:11px 15px;color:#fff;font-size:15px;cursor:pointer;flex-shrink:0;transition:all 0.13s;-webkit-appearance:none}
+.ai-sbtn:active{transform:scale(0.93)}
+.pchip{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:8px 10px;cursor:pointer;font-size:10px;color:var(--text2);display:flex;align-items:flex-start;gap:6px;transition:all 0.15s;user-select:none;line-height:1.4}
+.pchip:active{transform:scale(0.95)}
+.prompt-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:12px}
+
+/* DASHBOARD WIDGETS */
+.dg{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px}
+.dw{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);padding:13px}
+.dw-t{font-size:8px;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px}
+.dw-v{font-size:clamp(16px,4vw,22px);font-weight:800}
+.act-item{display:flex;align-items:center;gap:8px;font-size:11px;padding:9px 10px;background:var(--card);border:1px solid var(--border);border-radius:var(--r2);margin-bottom:7px}
+
+/* PROFILE */
+.pf-hdr{background:linear-gradient(135deg,rgba(59,130,246,0.05),rgba(139,92,246,0.04));border:1px solid var(--border);border-radius:var(--r4);padding:22px 16px;margin-bottom:14px;text-align:center}
+.pf-av{width:66px;height:66px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 10px;box-shadow:0 0 30px rgba(59,130,246,0.2)}
+.ach-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.ach-item{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);padding:12px;text-align:center}
+.ach-item.on{border-color:rgba(59,130,246,0.2);background:rgba(59,130,246,0.04)}
+
+/* LEVEL BAR */
+.lvl-wrap{background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:var(--r2);padding:11px;margin-bottom:11px}
+.lvl-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+
+/* BACK BUTTON */
+.back-btn{display:flex;align-items:center;gap:5px;background:none;border:none;color:var(--text3);font-size:10px;font-weight:700;cursor:pointer;padding:0;margin-bottom:13px;-webkit-appearance:none;user-select:none;text-transform:uppercase;letter-spacing:0.8px}
+.back-btn:active{opacity:0.5}
+
+/* TOAST */
+#toast-w{position:fixed;top:62px;left:50%;transform:translateX(-50%);z-index:9999;display:flex;flex-direction:column;align-items:center;gap:5px;pointer-events:none;width:88%;max-width:270px}
+.toast{background:rgba(12,12,12,0.98);border:1px solid var(--border2);border-radius:var(--r2);padding:9px 14px;font-size:11px;font-weight:500;color:var(--text);animation:tIn 0.2s ease;box-shadow:0 8px 28px rgba(0,0,0,0.5);backdrop-filter:blur(20px);text-align:center}
+@keyframes tIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+
+/* XP POP */
+.xp-pop{position:fixed;pointer-events:none;font-size:13px;font-weight:800;color:#34d399;z-index:9999;animation:xpp 1.1s forwards;white-space:nowrap}
+@keyframes xpp{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-55px) scale(0.8)}}
+
+/* CONFETTI */
+.conf{position:fixed;width:6px;height:6px;border-radius:1px;z-index:9999;pointer-events:none;animation:cf 2s ease-in forwards}
+@keyframes cf{0%{transform:translateY(0) rotate(0);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+
+/* LOADER */
+.loader{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.2);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* SKELETON */
+.skel{background:linear-gradient(90deg,rgba(255,255,255,0.04) 25%,rgba(255,255,255,0.08) 50%,rgba(255,255,255,0.04) 75%);background-size:200% 100%;animation:skelAnim 1.5s infinite;border-radius:var(--r);height:14px;margin-bottom:8px}
+@keyframes skelAnim{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* FLOATING ORB */
+#forb{position:fixed;bottom:calc(74px + env(safe-area-inset-bottom));right:13px;z-index:200;width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--purple));box-shadow:0 0 18px rgba(59,130,246,0.38);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;animation:flo 3s ease-in-out infinite;border:none;-webkit-appearance:none;user-select:none}
+@keyframes flo{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+#fpanel{position:fixed;bottom:calc(130px + env(safe-area-inset-bottom));right:13px;z-index:199;width:min(250px,calc(100vw - 26px));background:rgba(12,12,12,0.98);border:1px solid var(--border);border-radius:var(--r3);padding:13px;display:none;backdrop-filter:blur(24px)}
+#fpanel.open{display:block;animation:sIn 0.18s ease}
+
+/* LEVEL UP OVERLAY */
+#lvlup{display:none;position:fixed;inset:0;z-index:800;background:rgba(5,5,5,0.96);align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:20px;backdrop-filter:blur(20px)}
+#lvlup.open{display:flex;animation:sIn 0.3s ease}
+
+/* ACHIEVEMENT POPUP */
+#ach-pop{display:none;position:fixed;top:72px;left:50%;transform:translateX(-50%);z-index:850;background:rgba(12,12,12,0.98);border:1px solid rgba(59,130,246,0.25);border-radius:var(--r3);padding:14px 18px;text-align:center;backdrop-filter:blur(20px);width:220px}
+#ach-pop.show{display:block;animation:tIn 0.3s ease}
+</style>
+</head>
+<body>
+
+<!-- AMBIENT -->
+<div id="amb"><div class="aorb aorb1"></div><div class="aorb aorb2"></div><div class="aorb aorb3"></div></div>
+
+<!-- AUTH WRAP -->
+<div id="auth-wrap">
+  <div class="auth-box" id="auth-box">
+    <div class="auth-logo">
+      <div style="font-size:32px;margin-bottom:6px">🎓</div>
+      <div class="auth-title"><span class="g-blue">Exam</span><span class="g-purple">Verse</span> OS</div>
+      <div class="auth-sub">India's Largest Exam Platform</div>
+    </div>
+    <!-- Auth tabs -->
+    <div class="auth-tabs">
+      <div class="auth-tab active" id="tab-login" onclick="switchAuthTab('login')">Login</div>
+      <div class="auth-tab" id="tab-signup" onclick="switchAuthTab('signup')">Sign Up</div>
+    </div>
+    <!-- Login Form -->
+    <div id="form-login">
+      <div class="inp-group">
+        <label class="inp-label">Email</label>
+        <input class="inp" id="login-email" type="email" placeholder="your@email.com" autocomplete="email">
+      </div>
+      <div class="inp-group">
+        <label class="inp-label">Password</label>
+        <input class="inp" id="login-pass" type="password" placeholder="••••••••" autocomplete="current-password">
+        <div class="inp-err" id="login-err"></div>
+      </div>
+      <button class="btn btn-primary" id="btn-login">Login to ExamVerse</button>
+      <div class="divider-text">or</div>
+      <button class="btn btn-google" id="btn-google-login">
+        <svg width="16" height="16" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+        Continue with Google
+      </button>
+      <div class="auth-link"><a href="#" onclick="showForgotPassword()">Forgot password?</a></div>
+    </div>
+    <!-- Signup Form -->
+    <div id="form-signup" style="display:none">
+      <div class="inp-group">
+        <label class="inp-label">Full Name</label>
+        <input class="inp" id="signup-name" type="text" placeholder="Your name" autocomplete="name">
+      </div>
+      <div class="inp-group">
+        <label class="inp-label">Email</label>
+        <input class="inp" id="signup-email" type="email" placeholder="your@email.com" autocomplete="email">
+      </div>
+      <div class="inp-group">
+        <label class="inp-label">Password</label>
+        <input class="inp" id="signup-pass" type="password" placeholder="Min 6 characters" autocomplete="new-password">
+        <div class="inp-err" id="signup-err"></div>
+      </div>
+      <div class="inp-group">
+        <label class="inp-label">Preparing For</label>
+        <select class="inp" id="signup-exam" style="cursor:pointer">
+          <option value="">Select Exam...</option>
+          <option value="CUET">CUET</option><option value="NEET">NEET</option>
+          <option value="JEE">JEE Main</option><option value="JEEADV">JEE Advanced</option>
+          <option value="UPSC">UPSC</option><option value="SSC">SSC CGL</option>
+          <option value="BANKING">Banking (IBPS/SBI)</option><option value="RAILWAY">Railway (RRB)</option>
+          <option value="NDA">NDA</option><option value="CLAT">CLAT</option>
+          <option value="CAT">CAT</option><option value="TEACHING">Teaching (CTET)</option>
+          <option value="POLICE">Police Exams</option><option value="STATEPCS">State PCS</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" id="btn-signup">Create Account</button>
+      <div class="divider-text">or</div>
+      <button class="btn btn-google" id="btn-google-signup">
+        <svg width="16" height="16" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+        Continue with Google
+      </button>
+    </div>
+    <!-- OTP Form -->
+    <div id="form-otp" style="display:none">
+      <div style="text-align:center;margin-bottom:16px">
+        <div style="font-size:36px;margin-bottom:8px">📬</div>
+        <div class="h2" style="margin-bottom:4px">Verify Email</div>
+        <div class="sm muted" id="otp-email-hint">Enter the 6-digit code sent to your email</div>
+      </div>
+      <div class="otp-inputs">
+        <input class="otp-inp" maxlength="1" type="number" id="otp0">
+        <input class="otp-inp" maxlength="1" type="number" id="otp1">
+        <input class="otp-inp" maxlength="1" type="number" id="otp2">
+        <input class="otp-inp" maxlength="1" type="number" id="otp3">
+        <input class="otp-inp" maxlength="1" type="number" id="otp4">
+        <input class="otp-inp" maxlength="1" type="number" id="otp5">
+      </div>
+      <button class="btn btn-primary" id="btn-verify-otp">Verify Code</button>
+      <div class="auth-link"><a href="#" id="resend-otp">Resend OTP</a></div>
+    </div>
+    <!-- Forgot Password -->
+    <div id="form-forgot" style="display:none">
+      <div style="text-align:center;margin-bottom:16px">
+        <div style="font-size:32px;margin-bottom:8px">🔑</div>
+        <div class="h2" style="margin-bottom:4px">Reset Password</div>
+        <div class="sm muted">We'll send a reset link to your email</div>
+      </div>
+      <div class="inp-group">
+        <label class="inp-label">Email Address</label>
+        <input class="inp" id="forgot-email" type="email" placeholder="your@email.com">
+      </div>
+      <button class="btn btn-primary" id="btn-forgot">Send Reset Link</button>
+      <div class="auth-link"><a href="#" onclick="showAuthForm('login')">← Back to Login</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- TOPBAR -->
+<div id="topbar">
+  <div class="logo">
+    <div class="logo-mark">📚</div>
+    <span class="logo-name">ExamVerse OS</span>
+  </div>
+  <div class="topbar-right">
+    <div class="tpill tpill-clk" id="live-clock">--:--</div>
+    <div class="tpill tpill-str" id="streak-pill">🔥 0</div>
+    <div class="tpill tpill-xp" id="xp-pill">⚡ 0</div>
+  </div>
+</div>
+
+<!-- HOME -->
+<div id="s-home" class="screen active">
+  <div style="padding:8px 0 18px;text-align:center">
+    <div style="font-size:10px;font-weight:700;color:var(--text3);letter-spacing:2px;text-transform:uppercase;margin-bottom:7px" id="hero-greet">Welcome Back</div>
+    <div style="font-size:clamp(28px,8vw,48px);font-weight:900;letter-spacing:-2px;line-height:0.95;margin-bottom:7px">
+      <span class="g-blue">Exam</span><span class="g-purple">Verse</span>
+      <br><span style="font-size:0.38em;letter-spacing:2px;-webkit-text-fill-color:var(--text3);color:var(--text3);font-weight:600">OPERATING SYSTEM</span>
+    </div>
+  </div>
+  <div class="lvl-wrap">
+    <div class="lvl-row">
+      <span style="font-size:11px;font-weight:700;color:var(--blue)" id="home-level">Level 1 · Neural Cadet</span>
+      <span style="font-size:9px;color:var(--text3)" id="home-xp-til">0 / 500 XP</span>
+    </div>
+    <div class="pbar"><div class="pbar-f pb-blue" id="home-lbar" style="width:0%"></div></div>
+  </div>
+  <div class="sw-row">
+    <div class="sw"><div class="sw-v g-blue" id="h-qs">0</div><div class="sw-l">Questions</div></div>
+    <div class="sw"><div class="sw-v g-purple" id="h-mocks">0</div><div class="sw-l">Quizzes</div></div>
+    <div class="sw"><div class="sw-v" style="color:var(--cyan)" id="h-acc">—</div><div class="sw-l">Accuracy</div></div>
+    <div class="sw"><div class="sw-v" style="color:var(--orange)" id="h-streak">0🔥</div><div class="sw-l">Streak</div></div>
+    <div class="sw"><div class="sw-v g-main" id="h-rank">Cadet</div><div class="sw-l">Rank</div></div>
+  </div>
+  <div class="lbl">Choose Exam</div>
+  <div class="exam-grid" id="home-exam-grid"></div>
+  <div class="lbl">Quick Practice</div>
+  <div class="g2">
+    <button class="btn btn-primary" id="btn-quick" style="flex-direction:column;gap:3px;padding:14px;height:auto"><span style="font-size:20px">⚡</span><span>Quick 10</span><span style="font-size:9px;opacity:0.7;font-weight:400">Random questions</span></button>
+    <button class="btn btn-ghost" id="btn-daily" style="flex-direction:column;gap:3px;padding:14px;height:auto"><span style="font-size:20px">🎯</span><span>Daily Challenge</span><span style="font-size:9px;opacity:0.7;font-weight:400">Today's set</span></button>
+  </div>
+  <div class="g2">
+    <button class="btn btn-ghost" id="btn-pyq" style="flex-direction:column;gap:3px;padding:14px;height:auto"><span style="font-size:20px">📜</span><span>PYQ Mode</span><span style="font-size:9px;opacity:0.7;font-weight:400">Previous year Qs</span></button>
+    <button class="btn btn-ghost" id="btn-aiquiz" style="flex-direction:column;gap:3px;padding:14px;height:auto"><span style="font-size:20px">🤖</span><span>AI Quiz</span><span style="font-size:9px;opacity:0.7;font-weight:400">Claude generated</span></button>
+  </div>
+  <div style="text-align:center;padding-bottom:6px;margin-top:6px">
+    <a href="https://t.me/codexstudys" target="_blank" style="display:inline-flex;align-items:center;gap:5px;background:rgba(59,130,246,0.06);border:1px solid rgba(59,130,246,0.14);border-radius:20px;padding:7px 16px;font-size:10px;font-weight:700;color:var(--blue);text-decoration:none">✈️ t.me/codexstudys</a>
+  </div>
+</div>
+
+<!-- EXAM HUB -->
+<div id="s-examhub" class="screen">
+  <button class="back-btn" id="btn-back-eh">← Back</button>
+  <div class="h1 g-blue" id="eh-title">Exam Hub</div>
+  <div class="sm muted" id="eh-sub" style="margin-bottom:14px">Select subject</div>
+  <div id="eh-subj-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:9px"></div>
+</div>
+
+<!-- CHAPTERS -->
+<div id="s-chapters" class="screen">
+  <button class="back-btn" id="btn-back-ch">← Back</button>
+  <div class="h1 g-blue" id="ch-title">Topics</div>
+  <div class="sm muted" style="margin-bottom:14px">Choose practice mode</div>
+  <div id="ch-list"></div>
+</div>
+
+<!-- MOCKS -->
+<div id="s-mocks" class="screen">
+  <button class="back-btn" id="btn-back-mocks">← Back</button>
+  <div class="h1 g-purple">🏆 Mock Arena</div>
+  <div class="sm muted" style="margin-bottom:10px">Full exam simulation</div>
+  <div id="mock-list"></div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="s-dashboard" class="screen">
+  <div class="h1 g-blue" style="margin-bottom:3px">Dashboard</div>
+  <div class="sm muted" style="margin-bottom:14px">Your performance overview</div>
+  <div style="background:linear-gradient(135deg,rgba(245,158,11,0.06),rgba(239,68,68,0.04));border:1px solid rgba(245,158,11,0.14);border-radius:var(--r3);padding:15px;text-align:center;margin-bottom:12px">
+    <div style="font-size:26px;margin-bottom:3px">🔥</div>
+    <div style="font-size:30px;font-weight:900;color:var(--orange);letter-spacing:-2px" id="d-streak-big">0</div>
+    <div style="font-size:8px;color:var(--text3);letter-spacing:2px;text-transform:uppercase;margin-top:2px">Day Streak</div>
+  </div>
+  <div class="dg">
+    <div class="dw"><div class="dw-t">Total XP</div><div class="dw-v g-purple" id="d-xp">0</div></div>
+    <div class="dw"><div class="dw-t">Accuracy</div><div class="dw-v" style="color:var(--cyan)" id="d-acc">—</div></div>
+    <div class="dw"><div class="dw-t">Quizzes</div><div class="dw-v g-purple" id="d-quiz">0</div></div>
+    <div class="dw"><div class="dw-t">Questions</div><div class="dw-v g-blue" id="d-qs">0</div></div>
+    <div class="dw"><div class="dw-t">Correct</div><div class="dw-v" style="color:var(--green)" id="d-correct">0</div></div>
+    <div class="dw"><div class="dw-t">Rank</div><div style="font-size:10px;font-weight:800;color:var(--orange);margin-top:4px" id="d-rank">—</div></div>
+  </div>
+  <div class="lbl">Quick Actions</div>
+  <button class="btn btn-primary" id="btn-dash-start">🚀 Start Practice</button>
+  <div class="g2" style="margin-bottom:12px">
+    <button class="btn btn-ghost" id="btn-dash-mock">🏆 Full Mock</button>
+    <button class="btn btn-ghost" id="btn-dash-ai">🤖 AI Coach</button>
+  </div>
+  <div class="lbl">Recent Activity</div>
+  <div id="d-activity"><div class="skel"></div><div class="skel" style="width:80%"></div><div class="skel" style="width:60%"></div></div>
+</div>
+
+<!-- PROFILE -->
+<div id="s-profile" class="screen">
+  <div class="pf-hdr">
+    <div class="pf-av" id="pf-av-wrap">⚡</div>
+    <div class="h2 g-main" id="pf-name" style="text-align:center;margin-bottom:3px">Scholar</div>
+    <div style="font-size:10px;color:var(--blue);text-align:center;margin-bottom:8px" id="pf-level">Level 1 · 0 XP</div>
+    <div style="text-align:center;margin-bottom:10px">
+      <span class="badge b-blue" id="pf-exam">Exam: —</span>
+      <span class="badge b-purple">ExamVerse</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:11px">
+      <div style="text-align:center"><div style="font-size:16px;font-weight:800" class="g-blue" id="pf-xp">0</div><div style="font-size:7px;color:var(--text3);letter-spacing:0.8px;text-transform:uppercase;margin-top:2px">XP</div></div>
+      <div style="text-align:center"><div style="font-size:16px;font-weight:800;color:var(--cyan)" id="pf-acc">—</div><div style="font-size:7px;color:var(--text3);letter-spacing:0.8px;text-transform:uppercase;margin-top:2px">Accuracy</div></div>
+      <div style="text-align:center"><div style="font-size:16px;font-weight:800;color:var(--orange)" id="pf-streak">0🔥</div><div style="font-size:7px;color:var(--text3);letter-spacing:0.8px;text-transform:uppercase;margin-top:2px">Streak</div></div>
+    </div>
+  </div>
+  <div class="lbl">Achievements</div>
+  <div class="ach-grid" id="ach-grid"></div>
+  <div style="height:1px;background:var(--border);margin:14px 0"></div>
+  <div class="lbl">Quiz History</div>
+  <div id="pf-history"><div class="skel"></div><div class="skel" style="width:80%"></div></div>
+  <div style="text-align:center;margin-top:14px">
+    <button class="btn btn-danger" id="btn-logout" style="margin-bottom:9px">🚪 Logout</button>
+  </div>
+</div>
+
+<!-- AI HUB -->
+<div id="s-aihub" class="screen">
+  <div style="text-align:center;padding:14px;background:linear-gradient(135deg,rgba(139,92,246,0.05),rgba(59,130,246,0.04));border:1px solid var(--border);border-radius:var(--r4);margin-bottom:13px">
+    <div style="width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--blue));display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 9px;box-shadow:0 0 30px rgba(139,92,246,0.28);animation:flo 3s ease-in-out infinite">🤖</div>
+    <div class="h2 g-purple" style="text-align:center;margin-bottom:3px">AI Study Coach</div>
+    <div style="font-size:8px;color:var(--text3);letter-spacing:2px;text-transform:uppercase">Powered by Claude · ExamVerse OS</div>
+  </div>
+  <div class="lbl">AI Modes</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:12px" id="ai-mode-grid"></div>
+  <div class="lbl">Chat</div>
+  <div class="ai-wrap" id="ai-chat"><div class="ai-msg ai-bot">🎓 Hello! I'm your ExamVerse AI Coach. Ask me anything about exam preparation — NEET, JEE, UPSC, SSC, Banking, or any subject. I'm here to help you succeed! 🚀</div></div>
+  <div class="ai-inp-row">
+    <input class="ai-inp" id="ai-input" placeholder="Ask anything...">
+    <button class="ai-sbtn" id="btn-ai-send">↑</button>
+  </div>
+  <div class="lbl">Quick Prompts</div>
+  <div class="prompt-grid" id="ai-prompts"></div>
+</div>
+
+<!-- RESULTS -->
+<div id="s-results" class="screen">
+  <div class="h1 g-main" style="margin-bottom:3px">Results</div>
+  <div class="sm muted" style="margin-bottom:13px">ExamVerse OS · Performance Report</div>
+  <div class="rank-banner">
+    <div style="font-size:46px;margin-bottom:8px" id="rank-icon">🏆</div>
+    <div style="font-size:17px;font-weight:900;margin-bottom:3px;letter-spacing:-0.3px" id="rank-title">ELITE</div>
+    <div style="font-size:10px;color:var(--text3)" id="rank-sub">Outstanding performance</div>
+  </div>
+  <div class="an-grid" id="analytics-grid"></div>
+  <button class="btn btn-primary" id="btn-review">📖 Review Answers</button>
+  <div class="g2">
+    <button class="btn btn-ghost" id="btn-retry">🔄 Retry</button>
+    <button class="btn btn-ghost" id="btn-retry-wrong">🎯 Wrong Only</button>
+  </div>
+  <button class="btn btn-ghost" id="btn-share">📤 Share Score</button>
+  <button class="btn btn-ghost" id="btn-to-dash">📊 Dashboard</button>
+  <div class="lbl" style="margin-top:4px">AI Feedback</div>
+  <div id="ai-fb"></div>
+  <div id="review-section" style="display:none">
+    <div style="height:1px;background:var(--border);margin:14px 0"></div>
+    <div class="lbl">Answer Review</div>
+    <div id="review-list"></div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<div id="nav">
+  <button class="ni active" data-s="home"><span class="ni-ic">🏠</span><span class="ni-lb">Home</span><div class="ni-dot"></div></button>
+  <button class="ni" data-s="dashboard"><span class="ni-ic">📊</span><span class="ni-lb">Stats</span><div class="ni-dot"></div></button>
+  <button class="ni" data-s="mocks"><span class="ni-ic">🏆</span><span class="ni-lb">Mocks</span><div class="ni-dot"></div></button>
+  <button class="ni" data-s="profile"><span class="ni-ic">👤</span><span class="ni-lb">Profile</span><div class="ni-dot"></div></button>
+  <button class="ni" data-s="aihub"><span class="ni-ic">🤖</span><span class="ni-lb">AI</span><div class="ni-dot"></div></button>
+</div>
+
+<!-- QUIZ ENGINE -->
+<div id="quiz-wrap">
+  <div class="qhdr">
+    <div class="qhdr-info">
+      <div class="q-ttl" id="q-title">ExamVerse OS</div>
+      <div class="q-stl" id="q-sub">—</div>
+    </div>
+    <div id="qtmr" class="qtmr">60:00</div>
+    <div style="display:flex;gap:5px">
+      <button class="btn btn-ghost btn-sm" id="btn-pal">📋</button>
+      <button class="btn btn-danger btn-sm" id="btn-end">End</button>
+    </div>
+  </div>
+  <div class="qpbar"><div class="qpbar-f" id="qpbar-f" style="width:0%"></div></div>
+  <div class="qbody">
+    <div style="display:flex;align-items:center;gap:7px;margin-bottom:9px;flex-wrap:wrap">
+      <div class="q-num" id="q-num">Q 1 of 10</div>
+      <div id="q-diff-badge"></div>
+      <div id="q-src-badge"></div>
+    </div>
+    <div class="q-txt" id="q-txt"></div>
+    <div id="q-opts"></div>
+    <div class="exp-box" id="exp-box"></div>
+    <textarea style="width:100%;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:var(--r);padding:10px;color:var(--text);font-size:12px;resize:none;min-height:48px;outline:none;margin-top:9px;font-family:var(--font);transition:border-color 0.2s" id="q-note" placeholder="📝 Notes..."></textarea>
+  </div>
+  <div class="qftr">
+    <button class="btn btn-ghost btn-sm" id="btn-prev">◀ Prev</button>
+    <button class="btn btn-ghost btn-sm" id="btn-flag">🚩 Flag</button>
+    <button class="btn btn-ghost btn-sm" id="btn-clear">✕ Clear</button>
+    <button class="btn btn-ghost btn-sm" id="btn-book">🔖</button>
+    <button class="btn btn-primary btn-sm" id="btn-next">Next ▶</button>
+  </div>
+</div>
+
+<!-- PALETTE -->
+<div id="pal-ov">
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <div class="lbl" style="margin:0">Question Palette</div>
+    <button class="btn btn-danger btn-sm" id="btn-pal-close" style="width:auto">✕</button>
+  </div>
+  <div class="pal-grid" id="pal-grid"></div>
+  <div style="display:flex;gap:11px;flex-wrap:wrap">
+    <div style="display:flex;align-items:center;gap:5px;font-size:10px;color:var(--text2)"><div style="width:11px;height:11px;border-radius:3px;background:var(--blue)"></div>Current</div>
+    <div style="display:flex;align-items:center;gap:5px;font-size:10px;color:var(--text2)"><div style="width:11px;height:11px;border-radius:3px;background:rgba(16,185,129,0.6)"></div>Answered</div>
+    <div style="display:flex;align-items:center;gap:5px;font-size:10px;color:var(--text2)"><div style="width:11px;height:11px;border-radius:3px;background:rgba(245,158,11,0.6)"></div>Flagged</div>
+    <div style="display:flex;align-items:center;gap:5px;font-size:10px;color:var(--text2)"><div style="width:11px;height:11px;border-radius:3px;background:rgba(139,92,246,0.6)"></div>Bookmarked</div>
+  </div>
+  <div style="font-size:10px;color:var(--text2)" id="pal-stats">Answered: 0</div>
+</div>
+
+<!-- SUBMIT CONFIRM -->
+<div id="sub-cf">
+  <div class="cf-box">
+    <div style="font-size:38px;margin-bottom:10px">⚠️</div>
+    <div style="font-size:15px;font-weight:800;color:var(--red);margin-bottom:5px">Submit Quiz?</div>
+    <div style="font-size:11px;color:var(--text2);margin-bottom:17px" id="sub-stats">Are you sure?</div>
+    <div style="display:flex;gap:9px;justify-content:center">
+      <button class="btn btn-ghost btn-sm" id="btn-cancel-sub">Cancel</button>
+      <button class="btn btn-danger btn-sm" id="btn-confirm-sub">Submit Now</button>
+    </div>
+  </div>
+</div>
+
+<!-- LEVEL UP -->
+<div id="lvlup">
+  <div style="font-size:64px;margin-bottom:12px;animation:flo 1s ease-in-out infinite">⚡</div>
+  <div style="font-size:11px;font-weight:700;color:var(--text3);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">LEVEL UP!</div>
+  <div class="h1 g-main" id="lvlup-title" style="margin-bottom:4px;text-align:center">Level 2</div>
+  <div style="font-size:13px;color:var(--text2);margin-bottom:24px;text-align:center" id="lvlup-sub">Quantum Scholar</div>
+  <button class="btn btn-primary" id="btn-lvlup-close" style="max-width:200px">Continue ⚡</button>
+</div>
+
+<!-- ACHIEVEMENT POPUP -->
+<div id="ach-pop">
+  <div style="font-size:9px;color:var(--blue);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">Achievement Unlocked!</div>
+  <div style="font-size:28px;margin-bottom:5px" id="ach-pop-icon">🏆</div>
+  <div style="font-size:12px;font-weight:700;margin-bottom:2px" id="ach-pop-name">First Blood</div>
+  <div style="font-size:10px;color:var(--text3)" id="ach-pop-desc">Complete your first quiz</div>
+</div>
+
+<!-- FLOATING ORB -->
+<button id="forb">🤖</button>
+<div id="fpanel">
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+    <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--blue));display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0">🤖</div>
+    <div><div style="font-size:11px;font-weight:700">ExamVerse AI</div><div style="font-size:8px;color:var(--text3)">Study Assistant</div></div>
+  </div>
+  <div style="font-size:11px;color:var(--text2);margin-bottom:10px;line-height:1.55" id="f-msg">Ready to study? Let's crush it! 🚀</div>
+  <button class="btn btn-primary btn-sm" id="btn-orb-ai" style="width:100%">Open AI Chat →</button>
+</div>
+
+<!-- TOAST -->
+<div id="toast-w"></div>
+
+<script src="/js/app.js"></script>
+</body>
+</html>
